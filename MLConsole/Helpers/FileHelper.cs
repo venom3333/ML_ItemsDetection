@@ -10,17 +10,17 @@ namespace MLConsole.Helpers
     /// </summary>
     public class FileHelper
     {
-        string AssetsRelativePath { get; set; }
-        string AssetsPath { get; set; }
-        string ModelFilePath { get; set; }
-        string ImagesFolder { get; set; }
-        string OutputFolder { get; set; }
+        public string AssetsRelativePath { get; set; }
+        public string AssetsPath { get; set; }
+        public string ModelFilePath { get; set; }
+        public string ImagesFolder { get; set; }
+        public string OutputFolder { get; set; }
 
         public FileHelper(string assetsRelativePath)
         {
             AssetsRelativePath = assetsRelativePath;
             AssetsPath = GetAbsolutePath(AssetsRelativePath);
-            ModelFilePath = Path.Combine(AssetsPath, "Model", "TinyYolo2_model.onnx");
+            ModelFilePath = Path.Combine(AssetsPath, "Model", "tiny_yolov2", "Model.onnx");
             ImagesFolder = Path.Combine(AssetsPath, "images");
             OutputFolder = Path.Combine(AssetsPath, "images", "output");
         }

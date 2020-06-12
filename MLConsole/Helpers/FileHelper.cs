@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 
 namespace MLConsole.Helpers
 {
@@ -20,7 +17,7 @@ namespace MLConsole.Helpers
         {
             AssetsRelativePath = assetsRelativePath;
             AssetsPath = GetAbsolutePath(AssetsRelativePath);
-            ModelFilePath = Path.Combine(AssetsPath, "Model", "tiny_yolov2", "Model.onnx");
+            ModelFilePath = Path.Combine("Model", "tiny_yolov2", "Model.onnx");
             ImagesFolder = Path.Combine(AssetsPath, "images");
             OutputFolder = Path.Combine(AssetsPath, "images", "output");
         }

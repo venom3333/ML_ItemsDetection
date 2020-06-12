@@ -4,7 +4,7 @@ using System.Linq;
 
 using Microsoft.ML.Data;
 
-namespace MLConsole.DataStructures
+namespace DetectionCore.DataStructures
 {
     /// <summary>
     /// Класс входных данных изображения

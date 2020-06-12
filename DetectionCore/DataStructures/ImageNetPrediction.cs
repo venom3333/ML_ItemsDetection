@@ -1,6 +1,7 @@
-﻿using Microsoft.ML.Data;
+﻿
+using Microsoft.ML.Data;
 
-namespace MLConsole.DataStructures
+namespace DetectionCore.DataStructures
 {
     /// <summary>
     /// Класс прогноза данных

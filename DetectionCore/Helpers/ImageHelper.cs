@@ -1,5 +1,5 @@
-﻿using MLConsole.ONNX;
-using MLConsole.YoloParser;
+﻿using DetectionCore.ONNX;
+using DetectionCore.YoloParser;
 
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Text;
 
-namespace MLConsole.Helpers
+namespace DetectionCore.Helpers
 {
     public class ImageHelper
     {

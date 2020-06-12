@@ -1,15 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Linq;
 using Microsoft.ML;
-using System.Threading.Tasks;
-using MLConsole.YoloParser;
-using MLConsole.DataStructures;
+using DetectionCore.YoloParser;
+using DetectionCore.DataStructures;
 using MLConsole.Helpers;
-using MLConsole.ONNX;
+using DetectionCore.ONNX;
+using DetectionCore.Helpers;
 
 namespace MLConsole
 {

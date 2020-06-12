@@ -5,10 +5,10 @@ using System.Linq;
 using Microsoft.ML;
 using Microsoft.ML.Data;
 
-using MLConsole.DataStructures;
-using MLConsole.YoloParser;
+using DetectionCore.DataStructures;
+using DetectionCore.YoloParser;
 
-namespace MLConsole.ONNX
+namespace DetectionCore.ONNX
 {
     public class OnnxModelScorer
     {

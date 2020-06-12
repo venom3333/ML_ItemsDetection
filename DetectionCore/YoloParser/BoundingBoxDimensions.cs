@@ -1,4 +1,4 @@
-﻿namespace MLConsole.YoloParser
+﻿namespace DetectionCore.YoloParser
 {
     /// <summary>
     /// Содержит размеры ограничивающего прямоугольника

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Net;
 
-namespace MLConsole.YoloParser
+namespace DetectionCore.YoloParser
 {
-    class YoloOutputParser
+    public class YoloOutputParser
     {
         /// <summary>
         /// Число строк в сетке (grid), на которые делится изображение

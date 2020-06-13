@@ -9,7 +9,11 @@
 
 <h3>Detection</h3>
 
-<MatFileUpload OnChange="FileReady"></MatFileUpload>
+<MatFileUpload 
+               OnChange="FileReady"
+               Style="width: 500px; height: 50px"
+               Label="Перетащите или выберите изображение">
+</MatFileUpload>
 @if (!string.IsNullOrWhiteSpace(errorMessage))
 {
 <textarea style="width: 100%; max-height: 300px; height: 300px;">@errorMessage</textarea>
@@ -28,7 +32,7 @@
 
     string errorMessage;
     List<string> imageStrings = new List<string>();
-
+    
     async Task FileReady(IMatFileUploadEntry[] files)
     {
         try
@@ -47,12 +51,12 @@
                     await file.WriteToStreamAsync(stream);
                     sw.Stop();
 
-                    Console.WriteLine($"Name:\t{file.Name}\r\n");
-                    Console.WriteLine($"Type:\t{file.Type}\r\n");
-                    Console.WriteLine($"LastModified:\t{file.LastModified}\r\n");
-                    Console.WriteLine($"Size:\t{file.Size}\r\n");
-                    Console.WriteLine($"Time:\t{sw.Elapsed}\r\n");
-                    Console.WriteLine($"Speed:\t{(stream.Length / sw.Elapsed.TotalSeconds):N0}  b/s\r\n");
+                    Console.WriteLine($"Name:\t{file.Name}");
+                    Console.WriteLine($"Type:\t{file.Type}");
+                    Console.WriteLine($"LastModified:\t{file.LastModified}");
+                    Console.WriteLine($"Size:\t{file.Size}");
+                    Console.WriteLine($"Time:\t{sw.Elapsed}");
+                    Console.WriteLine($"Speed:\t{(stream.Length / sw.Elapsed.TotalSeconds):N0}  b/s");
 
                     var image = Image.FromStream(stream);
                     var bitmap = new Bitmap(image);

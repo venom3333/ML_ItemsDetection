@@ -1,10 +1,12 @@
-﻿using DetectionCore.ONNX;
+﻿using DetectionCore.DataStructures;
+using DetectionCore.ONNX;
 using DetectionCore.YoloParser;
 
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
 
@@ -12,9 +14,20 @@ namespace DetectionCore.Helpers
 {
     public class ImageHelper
     {
-        public static Image DrawBoundingBox(string inputImageLocation, string outputImageLocation, string imageName, IList<YoloBoundingBox> filteredBoundingBoxes)
+        public static Image DrawBoundingBox(Stream stream, IList<YoloBoundingBox> filteredBoundingBoxes)
+        {
+            Image image = Image.FromStream(stream);
+            return DrawBoundingBox(image, filteredBoundingBoxes);
+        }
+
+        public static Image DrawBoundingBox(string inputImageLocation, string imageName, IList<YoloBoundingBox> filteredBoundingBoxes)
         {
             Image image = Image.FromFile(Path.Combine(inputImageLocation, imageName));
+            return DrawBoundingBox(image, filteredBoundingBoxes);
+        }
+
+        public static Image DrawBoundingBox(Image image, IList<YoloBoundingBox> filteredBoundingBoxes)
+        {
             var originalImageHeight = image.Height;
             var originalImageWidth = image.Width;
 
@@ -28,10 +41,10 @@ namespace DetectionCore.Helpers
 
                 // Поскольку размеры ограничивающего прямоугольника соответствуют входным данным модели 416 x 416,
                 // масштабируем размеры ограничивающего прямоугольника в соответствии с фактическим размером изображения
-                x = (uint)originalImageWidth * x / OnnxModelScorer.ImageNetSettings.ImageWidth;
-                y = (uint)originalImageHeight * y / OnnxModelScorer.ImageNetSettings.ImageHeight;
-                width = (uint)originalImageWidth * width / OnnxModelScorer.ImageNetSettings.ImageWidth;
-                height = (uint)originalImageHeight * height / OnnxModelScorer.ImageNetSettings.ImageHeight;
+                x = (uint)originalImageWidth * x / ImageNetSettings.ImageWidth;
+                y = (uint)originalImageHeight * y / ImageNetSettings.ImageHeight;
+                width = (uint)originalImageWidth * width / ImageNetSettings.ImageWidth;
+                height = (uint)originalImageHeight * height / ImageNetSettings.ImageHeight;
 
                 string text = $"{box.Label} ({box.Confidence * 100:0}%)";
 
@@ -62,6 +75,35 @@ namespace DetectionCore.Helpers
             }
 
             return image;
+        }
+
+        /// <summary>
+        /// Resize the image to the specified width and height.
+        /// </summary>
+        /// <param name="image">The image to resize.</param>
+        /// <param name="width">The width to resize to.</param>
+        /// <param name="height">The height to resize to.</param>
+        /// <returns>The resized image.</returns>
+        public static Bitmap ResizeImage(Image image, int width, int height)
+        {
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using var graphics = Graphics.FromImage(destImage);
+
+            graphics.CompositingMode = CompositingMode.SourceCopy;
+            graphics.CompositingQuality = CompositingQuality.HighQuality;
+            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            graphics.SmoothingMode = SmoothingMode.HighQuality;
+            graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+            using var wrapMode = new ImageAttributes();
+            wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+            graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+
+            return destImage;
         }
     }
 }

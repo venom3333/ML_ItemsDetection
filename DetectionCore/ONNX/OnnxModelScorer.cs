@@ -12,23 +12,17 @@ namespace DetectionCore.ONNX
 {
     public class OnnxModelScorer
     {
-        private readonly string ImagesFolder;
+        //private readonly string ImagesFolder;
         private readonly string ModelLocation;
         private readonly MLContext MlContext;
 
         private IList<YoloBoundingBox> _boundingBoxes = new List<YoloBoundingBox>();
 
-        public OnnxModelScorer(string imagesFolder, string modelLocation, MLContext mlContext)
+        public OnnxModelScorer(string modelLocation, MLContext mlContext)
         {
-            ImagesFolder = imagesFolder;
+            //ImagesFolder = imagesFolder;
             ModelLocation = modelLocation;
             MlContext = mlContext;
-        }
-
-        public struct ImageNetSettings
-        {
-            public const int ImageHeight = 416;
-            public const int ImageWidth = 416;
         }
 
         /// <summary>
@@ -41,6 +35,23 @@ namespace DetectionCore.ONNX
 
             // output tensor name
             public const string ModelOutput = "grid";
+        }
+
+        private ITransformer LoadModelWithTensorDataView(string modelLocation)
+        {
+            Console.WriteLine("Read model");
+            Console.WriteLine($"Model location: {modelLocation}");
+            Console.WriteLine($"Default parameters: image size=({ImageNetSettings.ImageWidth},{ImageNetSettings.ImageHeight})");
+
+            var data = MlContext.Data.LoadFromEnumerable(new List<TensorData>());
+            var pipeline = MlContext.Transforms.ApplyOnnxModel(
+                    modelFile: modelLocation,
+                    outputColumnNames: new[] { TinyYoloModelSettings.ModelOutput },
+                    inputColumnNames: new[] { TinyYoloModelSettings.ModelInput }
+                );
+
+            var model = pipeline.Fit(data);
+            return model;
         }
 
         /// <summary>
@@ -81,8 +92,8 @@ namespace DetectionCore.ONNX
         /// <returns></returns>
         private IEnumerable<float[]> PredictDataUsingModel(IDataView testData, ITransformer model)
         {
-            Console.WriteLine($"Images location: {ImagesFolder}");
-            Console.WriteLine("");
+            //Console.WriteLine($"Images location: {ImagesFolder}");
+            //Console.WriteLine("");
             Console.WriteLine("=====Identify the objects in the images=====");
             Console.WriteLine("");
 
@@ -100,10 +111,18 @@ namespace DetectionCore.ONNX
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public IEnumerable<float[]> Score(IDataView data)
+        public IEnumerable<float[]> Score(IDataView data, bool tensorDataWiew = false)
         {
-            var model = LoadModel(ModelLocation);
-
+            ITransformer model;
+            if (tensorDataWiew)
+            {
+                model = LoadModelWithTensorDataView(ModelLocation);
+            }
+            else
+            {
+                model = LoadModel(ModelLocation);
+            }
+            
             return PredictDataUsingModel(data, model);
         }
     }

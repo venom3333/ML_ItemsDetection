@@ -23,11 +23,10 @@ namespace MLConsole
 
                 var mlContext = new MLContext();
 
-                // Загруэаем данные
+                // Загружаем данные
                 var imageDataView = mlContext.Data.LoadFromEnumerable(images);
-
                 // Создаем экземпляр OnnxModelScorer и используем его для оценки загруженных данных
-                var modelScorer = new OnnxModelScorer(filehelper.ImagesFolder, filehelper.ModelFilePath, mlContext);
+                var modelScorer = new OnnxModelScorer(filehelper.ModelFilePath, mlContext);
                 var probabilities = modelScorer.Score(imageDataView);
 
                 // Создаем экземпляр YoloOutputParser и используем его для обработки выходных данных модели
@@ -40,7 +39,7 @@ namespace MLConsole
                 {
                     string imageFileName = images.ElementAt(i).Label;
                     var detectedObjects = boundingBoxes.ElementAt(i);
-                    var imageWithLabels = ImageHelper.DrawBoundingBox(filehelper.ImagesFolder, filehelper.OutputFolder, imageFileName, detectedObjects);
+                    var imageWithLabels = ImageHelper.DrawBoundingBox(filehelper.ImagesFolder, imageFileName, detectedObjects);
                     
                     if (!Directory.Exists(filehelper.OutputFolder))
                     {
@@ -49,7 +48,7 @@ namespace MLConsole
 
                     imageWithLabels.Save(Path.Combine(filehelper.OutputFolder, imageFileName));
 
-                    LogDetectedObjects(imageFileName, detectedObjects);
+                    LogHelper.LogDetectedObjects(imageFileName, detectedObjects);
                 }
             }
             catch (Exception ex)
@@ -59,18 +58,6 @@ namespace MLConsole
 
             Console.WriteLine("========= End of Process..Hit any Key ========");
             Console.ReadLine();
-        }
-
-        private static void LogDetectedObjects(string imageName, IList<YoloBoundingBox> boundingBoxes)
-        {
-            Console.WriteLine($".....The objects in the image {imageName} are detected as below....");
-
-            foreach (var box in boundingBoxes)
-            {
-                Console.WriteLine($"{box.Label} and its Confidence score: {box.Confidence}");
-            }
-
-            Console.WriteLine("");
         }
     }
 }

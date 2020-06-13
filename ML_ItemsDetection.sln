@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MLConsole", "MLConsole\MLConsole.csproj", "{F1841153-5063-43F3-B233-284F5870CCF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DetectionCore", "DetectionCore\DetectionCore.csproj", "{BC5C08C7-B6D3-4C7A-A9A8-0FBD53B7FB9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DetectionCore", "DetectionCore\DetectionCore.csproj", "{BC5C08C7-B6D3-4C7A-A9A8-0FBD53B7FB9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorDetection", "BlazorDetection\BlazorDetection.csproj", "{149CC22F-BD40-4C36-85BA-BD342475F7F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{BC5C08C7-B6D3-4C7A-A9A8-0FBD53B7FB9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC5C08C7-B6D3-4C7A-A9A8-0FBD53B7FB9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC5C08C7-B6D3-4C7A-A9A8-0FBD53B7FB9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{149CC22F-BD40-4C36-85BA-BD342475F7F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{149CC22F-BD40-4C36-85BA-BD342475F7F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{149CC22F-BD40-4C36-85BA-BD342475F7F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{149CC22F-BD40-4C36-85BA-BD342475F7F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

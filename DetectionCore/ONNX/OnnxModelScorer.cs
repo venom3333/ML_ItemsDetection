@@ -43,11 +43,17 @@ namespace DetectionCore.ONNX
             Console.WriteLine($"Model location: {modelLocation}");
             Console.WriteLine($"Default parameters: image size=({ImageNetSettings.ImageWidth},{ImageNetSettings.ImageHeight})");
 
-            var data = MlContext.Data.LoadFromEnumerable(new List<TensorData>());
-            var pipeline = MlContext.Transforms.ApplyOnnxModel(
+            var data = MlContext.Data.LoadFromEnumerable(new List<ImageData>());
+            var pipeline = MlContext.Transforms.ResizeImages(
+                    outputColumnName: "image",
+                    imageWidth: ImageNetSettings.ImageWidth,
+                    imageHeight: ImageNetSettings.ImageHeight,
+                    inputColumnName: "image")
+                .Append(MlContext.Transforms.ExtractPixels(outputColumnName: "image"))
+                .Append(MlContext.Transforms.ApplyOnnxModel(
                     modelFile: modelLocation,
                     outputColumnNames: new[] { TinyYoloModelSettings.ModelOutput },
-                    inputColumnNames: new[] { TinyYoloModelSettings.ModelInput }
+                    inputColumnNames: new[] { TinyYoloModelSettings.ModelInput })
                 );
 
             var model = pipeline.Fit(data);

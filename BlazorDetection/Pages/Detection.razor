@@ -7,20 +7,33 @@
 
 @inject DetectionService DetectionService
 
-<h1>Detection</h1>
+<h3>Detection</h3>
 
 <MatFileUpload OnChange="FileReady"></MatFileUpload>
-<textarea style="width: 100%; max-height: 300px; height: 300px;">@fileContent</textarea>
+@if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+<textarea style="width: 100%; max-height: 300px; height: 300px;">@errorMessage</textarea>
+}
+
+@foreach (var image in imageStrings)
+{
+    <div>
+        <img src="data:image/png;base64, @image"
+             alt="Image"
+             height="650"/>
+    </div>
+}
 
 @code {
 
-    string fileContent;
+    string errorMessage;
+    List<string> imageStrings = new List<string>();
 
     async Task FileReady(IMatFileUploadEntry[] files)
     {
         try
         {
-            List<Image> images = new List<Image>();
+            List<Bitmap> images = new List<Bitmap>();
             foreach (var file in files)
             {
                 if (file == null)
@@ -41,17 +54,17 @@
                     Console.WriteLine($"Time:\t{sw.Elapsed}\r\n");
                     Console.WriteLine($"Speed:\t{(stream.Length / sw.Elapsed.TotalSeconds):N0}  b/s\r\n");
 
-                    //stream.Seek(0, SeekOrigin.Begin);
                     var image = Image.FromStream(stream);
-                    images.Add(image);
+                    var bitmap = new Bitmap(image);
+                    images.Add(bitmap);
                 }
             }
-            await DetectionService.DetectAsync(images);
+            imageStrings = await DetectionService.DetectAsync(images);
         }
 
         catch (Exception e)
         {
-            fileContent = $"Error:\r\n{e.Message}\r\n{e.StackTrace}";
+            errorMessage = $"Error:\r\n{e.Message}\r\n{e.StackTrace}";
         }
         finally
         {

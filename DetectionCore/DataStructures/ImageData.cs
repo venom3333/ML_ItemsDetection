@@ -1,6 +1,7 @@
 ﻿using DetectionCore.Helpers;
 
 using Microsoft.ML.Data;
+using Microsoft.ML.Transforms.Image;
 
 using System;
 using System.Collections.Generic;
@@ -17,13 +18,14 @@ namespace DetectionCore.DataStructures
     /// </summary>
     public class ImageData
     {
-        [VectorType(ImageNetSettings.NumChannels, ImageNetSettings.ImageWidth, ImageNetSettings.ImageHeight)]
-        public Image image { get; set; }
+        [ImageType(ImageNetSettings.ImageHeight, ImageNetSettings.ImageWidth)]
+        //[VectorType(ImageNetSettings.NumChannels, ImageNetSettings.ImageWidth, ImageNetSettings.ImageHeight)]
+        public Bitmap image { get; set; }
 
         /// <summary>
         /// Method to generate sample test data. Returns 2 sample rows.
         /// </summary>
-        public static ImageData[] GetTensorDataFromImages(Image[] images)
+        public static ImageData[] GetTensorDataFromImages(Bitmap[] images)
         {
             ImageData[] tensorDataList = new ImageData[images.Length];
 

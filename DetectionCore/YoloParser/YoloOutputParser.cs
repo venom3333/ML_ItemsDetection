@@ -65,10 +65,10 @@ namespace DetectionCore.YoloParser
         /// </summary>
         private string[] labels = new string[]
         {
-            "aeroplane", "bicycle", "bird", "boat", "bottle",
-            "bus", "car", "cat", "chair", "cow",
-            "diningtable", "dog", "horse", "motorbike", "person",
-            "pottedplant", "sheep", "sofa", "train", "tvmonitor"
+            "Самолет", "Велосипед", "Птица", "Лодка", "Бутылка",
+            "Автобус", "Автомобиль", "Кот", "Стул", "Корова",
+            "Стол", "Собака", "Лошадь", "Мотоцикл", "Человек",
+            "Растение в горшке", "Овца", "Диван", "Поезд", "ТВ-монитор"
         };
 
         /// <summary>

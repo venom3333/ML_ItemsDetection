@@ -25,21 +25,13 @@ namespace DetectionCore.DataStructures
         /// <summary>
         /// Method to generate sample test data. Returns 2 sample rows.
         /// </summary>
-        public static ImageData[] GetTensorDataFromImages(Bitmap[] images)
+        public static IEnumerable<ImageData> GetTensorDataFromImages(IEnumerable<Bitmap> images)
         {
-            ImageData[] tensorDataList = new ImageData[images.Length];
-
-            for (int idx = 0; idx < images.Length; idx++)
+            foreach (var image in images)
             {
-                // ресайз до размеров входного тензора
-                //var bitmap = ImageHelper.ResizeImage(images[idx], ImageNetSettings.ImageWidth, ImageNetSettings.ImageHeight);
-
-                // наполнение тензора данными
-                var tensorData = new ImageData { image = images[idx] };
-                tensorDataList[idx] = tensorData;
+                var tensorData = new ImageData { image = image };
+                yield return tensorData;
             }
-
-            return tensorDataList;
         }
     }
 }
